@@ -1,0 +1,12 @@
+{
+  "suspects": [
+    {"id": "ambrine",   "nom": "Ambrine Van Der Weyden", "role": "Épouse du Propriétaire (victime)"},
+    {"id": "alexandre", "nom": "Alexandre Vautier",       "role": "PDG de Vautier Corp, rival commercial de Charles"},
+    {"id": "sophie",    "nom": "Sophie Duval",            "role": "Ex-maîtresse de Charles, travaille dans le milieu de l'art"},
+    {"id": "charles",   "nom": "Charles Van Der Weyden (L'Esprit)", "role": "La victime — contactable via séance de spiritisme numérique"},
+    {"id": "frank",     "nom": "Frank Miller",            "role": "Chef de la Sécurité du Manoir"},
+    {"id": "thomas",    "nom": "Thomas",                  "role": "Serveur intérimaire"},
+    {"id": "julien",    "nom": "Julien",                  "role": "Serveur extra"},
+    {"id": "marc",      "nom": "Marc",                    "role": "Gendre de la victime, marié à sa fille"}
+  ]
+}

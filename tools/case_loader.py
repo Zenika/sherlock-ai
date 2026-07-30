@@ -1,0 +1,108 @@
+"""Chargement des données de l'enquête depuis le dossier `case/`.
+
+Toute l'enquête est pilotée par les données : pour créer une nouvelle affaire,
+il suffit d'éditer les fichiers de `case/` sans toucher au code.
+"""
+from __future__ import annotations
+
+import json
+import os
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+# Emplacement du dossier de l'enquête. Surchageable via la variable
+# d'environnement CASE_DIR (utile en conteneur).
+CASE_DIR = Path(os.environ.get("CASE_DIR", Path(__file__).resolve().parent.parent / "case"))
+
+
+def _read_json(path: Path) -> Any:
+    with path.open("r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+@lru_cache(maxsize=1)
+def load_case() -> dict[str, Any]:
+    """Métadonnées de l'affaire (case.json)."""
+    return _read_json(CASE_DIR / "case.json")
+
+
+@lru_cache(maxsize=1)
+def load_suspects() -> list[dict[str, Any]]:
+    """Liste des suspects (suspects.json)."""
+    return _read_json(CASE_DIR / "suspects.json")["suspects"]
+
+
+@lru_cache(maxsize=1)
+def load_camera_logs() -> list[dict[str, Any]]:
+    """Logs des caméras de surveillance (camera_logs.json)."""
+    return _read_json(CASE_DIR / "camera_logs.json")["logs"]
+
+
+def get_suspect(identifiant: str) -> dict[str, Any] | None:
+    """Retrouve un suspect par son id ou son nom (insensible à la casse)."""
+    besoin = identifiant.strip().lower()
+    for suspect in load_suspects():
+        if suspect["id"].lower() == besoin or suspect["nom"].lower() == besoin:
+            return suspect
+    # Recherche partielle sur le nom (ex: "finch" -> "Dr Aloysius Finch").
+    for suspect in load_suspects():
+        if besoin in suspect["nom"].lower():
+            return suspect
+    return None
+
+
+def list_suspects_publics() -> list[dict[str, str]]:
+    """Vue publique des suspects (sans les secrets ni la solution)."""
+    return [
+        {"id": s["id"], "nom": s["nom"], "role": s["role"]}
+        for s in load_suspects()
+    ]
+
+
+def list_documents() -> list[dict[str, str]]:
+    """Liste des documents disponibles dans case/documents."""
+    docs_dir = CASE_DIR / "documents"
+    documents: list[dict[str, str]] = []
+    if not docs_dir.exists():
+        return documents
+    for path in sorted(docs_dir.glob("*.md")):
+        titre = path.stem
+        # Utilise le premier titre markdown comme libellé lisible si présent.
+        try:
+            first_line = path.read_text(encoding="utf-8").splitlines()[0]
+            if first_line.startswith("#"):
+                titre = first_line.lstrip("# ").strip()
+        except (OSError, IndexError):
+            pass
+        documents.append({"reference": path.stem, "titre": titre})
+    return documents
+
+
+def load_suspect_prompt(suspect_id: str) -> str | None:
+    """Charge le prompt système d'un suspect depuis case/prompts/{id}.md.
+
+    Les prompts système sont stockés en dehors du code Python, dans des fichiers
+    Markdown dédiés. Pour modifier le comportement d'un personnage, éditez
+    uniquement le fichier correspondant dans case/prompts/ sans toucher au code.
+    """
+    prompt_file = CASE_DIR / "prompts" / f"{suspect_id.strip().lower()}.md"
+    if prompt_file.exists():
+        return prompt_file.read_text(encoding="utf-8")
+    return None
+
+
+def read_document(reference: str) -> str | None:
+    """Renvoie le contenu markdown d'un document par sa référence (nom de fichier sans extension)."""
+    ref = reference.strip().lower().removesuffix(".md")
+    docs_dir = CASE_DIR / "documents"
+    if not docs_dir.exists():
+        return None
+    for path in docs_dir.glob("*.md"):
+        if path.stem.lower() == ref:
+            return path.read_text(encoding="utf-8")
+    # Recherche partielle.
+    for path in docs_dir.glob("*.md"):
+        if ref in path.stem.lower():
+            return path.read_text(encoding="utf-8")
+    return None

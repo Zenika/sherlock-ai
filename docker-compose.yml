@@ -1,0 +1,90 @@
+services:
+  # ---------------------------------------------------------------------------
+  # Interface enquêteur : Open WebUI (agnostique du provider LLM).
+  # ---------------------------------------------------------------------------
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: sherlock-openwebui
+    restart: unless-stopped
+    ports:
+      - "${OPENWEBUI_PORT:-3000}:8080"
+    environment:
+      # Secret de session (à définir dans .env).
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
+      # Nom affiché de l'instance.
+      WEBUI_NAME: ${WEBUI_NAME:-Sherlock AI}
+      # Inscriptions publiques désactivées : les comptes sont pré-créés.
+      ENABLE_SIGNUP: "false"
+      # Connexions LLM compatibles OpenAI (plusieurs providers séparés par ';').
+      # Ex : OpenAI ; Gemini (/openai) ; Anthropic (compat).
+      OPENAI_API_BASE_URLS: ${OPENAI_API_BASE_URLS}
+      OPENAI_API_KEYS: ${OPENAI_API_KEYS}
+      # Modèles accessibles aux enquêteurs (non-admins).
+      # Dans un environnement fermé, tous les modèles du provider sont visibles
+      # par défaut. L'admin gère la visibilité dans Admin → Modèles.
+      # DEFAULT_MODELS : modèle présélectionné par défaut (défini aussi via bootstrap).
+      DEFAULT_MODELS: ${DEFAULT_MODELS:-}
+    volumes:
+      - openwebui-data:/app/backend/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0) if urllib.request.urlopen('http://localhost:8080/health').status==200 else sys.exit(1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # Serveur d'outils : serveur MCP « Sherlock AI » exposé en OpenAPI via mcpo.
+  # Fournit interroger_suspect / consulter_document / consulter_logs_camera.
+  # ---------------------------------------------------------------------------
+  tools:
+    build: ./tools
+    container_name: sherlock-tools
+    restart: unless-stopped
+    ports:
+      - "${TOOLS_PORT:-8000}:8000"
+    environment:
+      # Clé protégeant l'accès aux outils depuis Open WebUI.
+      MCPO_API_KEY: ${MCPO_API_KEY}
+      # Provider LLM (compatible OpenAI) qui « joue » les suspects.
+      LLM_BASE_URL: ${LLM_BASE_URL}
+      LLM_API_KEY: ${LLM_API_KEY}
+      LLM_MODEL: ${LLM_MODEL:-gpt-4o-mini}
+      CASE_DIR: /app/case
+    volumes:
+      # L'enquête est montée en lecture seule : éditez case/ pour changer d'affaire.
+      - ./case:/app/case:ro
+
+  # ---------------------------------------------------------------------------
+  # Amorçage (one-shot) : crée l'admin + les comptes enquêteurs génériques.
+  # Se termine une fois les comptes créés (idempotent).
+  # ---------------------------------------------------------------------------
+  bootstrap:
+    image: python:3.12-slim
+    container_name: sherlock-bootstrap
+    depends_on:
+      openwebui:
+        condition: service_healthy
+      tools:
+        condition: service_started
+    restart: "no"
+    environment:
+      OPENWEBUI_URL: http://openwebui:8080
+      ADMIN_NAME: ${ADMIN_NAME:-Administrateur}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      INVESTIGATOR_COUNT: ${INVESTIGATOR_COUNT:-5}
+      INVESTIGATOR_PREFIX: ${INVESTIGATOR_PREFIX:-enqueteur}
+      INVESTIGATOR_DOMAIN: ${INVESTIGATOR_DOMAIN:-sherlock.local}
+      INVESTIGATOR_PASSWORD: ${INVESTIGATOR_PASSWORD}
+      MCPO_API_KEY: ${MCPO_API_KEY}
+      TOOLS_URL: http://tools:8000
+      TOOLS_PATH: /sherlock/openapi.json
+      DEFAULT_MODELS: ${DEFAULT_MODELS:-}
+      ENABLED_MODELS: ${ENABLED_MODELS:-}
+    volumes:
+      - ./bootstrap:/bootstrap:ro
+    command: ["python", "/bootstrap/init_accounts.py"]
+
+volumes:
+  openwebui-data:

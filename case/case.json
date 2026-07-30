@@ -1,0 +1,16 @@
+{
+  "id": "gala-van-der-weyden",
+  "titre": "Meurtre au Gala Van Der Weyden",
+  "resume_public": "Le 12 septembre 2023, Charles Van Der Weyden, riche propriétaire du Manoir Van Der Weyden, a été retrouvé mort dans son Bureau Privé vers 22h20, peu après une coupure de courant générale de 5 minutes. Une soirée de Gala réunissait ce soir-là une centaine d'invités. La police bloque les sorties.",
+  "briefing_enqueteur": "Vous êtes l'enquêteur chargé de l'affaire. Plusieurs suspects se trouvaient dans le manoir ce soir-là. Interrogez-les, consultez les documents du dossier et examinez les enregistrements des caméras. Les témoignages peuvent se contredire — c'est à vous de démêler le vrai du faux. Notez que certains personnages peuvent vous orienter vers des documents utiles.",
+  "heure_du_crime": "12 septembre 2023, entre 22h00 et 22h20",
+  "lieu_du_crime": "Bureau Privé de Charles Van Der Weyden, Manoir Van Der Weyden",
+  "arme_du_crime": "Double : poison (Aconitine) versé dans un verre au bar vers 21h15, suivi d'un coup de couteau vers 22h05 alors que Charles était déjà agonisant",
+  "solution": {
+    "meurtriere_principale": "Sophie Duval (ex-maîtresse) — a versé de l'Aconitine dans le verre de Charles vers 21h15 par vengeance suite à sa rupture brutale.",
+    "complice_violence": "Marc (le gendre) — est entré dans le bureau pendant la coupure de courant et a poignardé Charles avec un couteau, croyant l'intimider. Charles était déjà agonisant du poison.",
+    "complot_vol": "Ambrine (épouse) avec Thomas et Julien (serveurs) — a orchestré la coupure de courant et le vol du diamant 'L'Éléphant'. Le diamant volé était un faux en verre.",
+    "note_animateur": "NE PAS révéler ce bloc aux joueurs. Charles est mort principalement du poison. Marc a poignardé un homme déjà mourant. Ambrine a volé un faux. Plusieurs coupables, plusieurs mobiles."
+  },
+  "condition_de_victoire": "L'enquêteur doit identifier Sophie comme autrice du poison, expliquer que Marc a poignardé un homme déjà mourant, et démasquer le complot d'Ambrine pour le diamant."
+}
