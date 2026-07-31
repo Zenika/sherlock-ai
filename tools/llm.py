@@ -36,9 +36,8 @@ def interroger_suspect_llm(
 ) -> str:
     """Appelle le LLM pour générer la réponse du suspect à une question.
 
-    Le prompt système est chargé depuis case/prompts/{id}.md — il n'est jamais
-    codé en dur dans ce fichier. Pour modifier un personnage, éditez uniquement
-    son fichier de prompt.
+    Le prompt système est chargé depuis case/prompts/{id}.md. Le contexte
+    général de l'affaire (case.json) est injecté en en-tête du prompt.
     """
     import case_loader
 
@@ -48,6 +47,9 @@ def interroger_suspect_llm(
             f"[Persona non disponible pour {suspect['nom']} — "
             f"fichier case/prompts/{suspect['id']}.md introuvable]"
         )
+
+    if case.get("resume_public"):
+        system_prompt = f"[AFFAIRE : {case.get('titre', '')} — {case['resume_public']}]\n\n{system_prompt}"
 
     try:
         response = _client().chat.completions.create(
@@ -60,31 +62,7 @@ def interroger_suspect_llm(
             max_tokens=600,
         )
         return (response.choices[0].message.content or "").strip()
-    except Exception as exc:  # noqa: BLE001 - on renvoie une erreur lisible au jeu
-        return (
-            f"[Le suspect reste silencieux — le service d'interrogatoire est indisponible : {exc}]"
-        )
-
-
-def interroger_suspect_llm(
-    suspect: dict[str, Any],
-    case: dict[str, Any],
-    question: str,
-) -> str:
-    """Appelle le LLM pour générer la réponse du suspect à une question."""
-    system_prompt = _build_system_prompt(suspect, case)
-    try:
-        response = _client().chat.completions.create(
-            model=_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": question},
-            ],
-            temperature=0.8,
-            max_tokens=400,
-        )
-        return (response.choices[0].message.content or "").strip()
-    except Exception as exc:  # noqa: BLE001 - on renvoie une erreur lisible au jeu
+    except Exception as exc:  # noqa: BLE001
         return (
             f"[Le suspect reste silencieux — le service d'interrogatoire est indisponible : {exc}]"
         )

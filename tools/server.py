@@ -84,25 +84,24 @@ def cctv(camera: str = "", heure_debut: str = "", heure_fin: str = "") -> str:
         heure_fin:   heure de fin au format HH:MM (ex: "22:10"). Si vide, pas
                      de borne supérieure.
     """
-    cctv_path = CASE_DIR / "cctv_logs.json"
+    cctv_path = CASE_DIR / "camera_logs.json"
     if not cctv_path.exists():
-        return "[Logs CCTV indisponibles — fichier case/cctv_logs.json introuvable]"
+        return "[Logs CCTV indisponibles — fichier case/camera_logs.json introuvable]"
 
     try:
         logs: list[dict] = json.loads(cctv_path.read_text(encoding="utf-8"))
     except Exception as exc:
         return f"[Erreur de lecture des logs CCTV : {exc}]"
 
-    def to_minutes(hhmm: str) -> int | None:
-        hhmm = hhmm.strip()
-        if not hhmm:
+    def to_minutes(ts: str) -> int | None:
+        # Accepte HH:MM, HH:MM:SS et HHhMM.
+        ts = ts.strip()
+        if not ts:
             return None
-        parts = hhmm.replace("h", ":").split(":")
-        if len(parts) != 2:
-            return None
+        parts = ts.replace("h", ":").split(":")
         try:
             return int(parts[0]) * 60 + int(parts[1])
-        except ValueError:
+        except (ValueError, IndexError):
             return None
 
     debut = to_minutes(heure_debut)
@@ -111,15 +110,18 @@ def cctv(camera: str = "", heure_debut: str = "", heure_fin: str = "") -> str:
 
     resultats = []
     for log in logs:
-        if filtre_camera and filtre_camera not in str(log.get("camera", "")).lower():
+        cam_id = str(log.get("camera_id", "")).lower()
+        location = str(log.get("location", "")).lower()
+        if filtre_camera and filtre_camera not in cam_id and filtre_camera not in location:
             continue
-        t = to_minutes(str(log.get("heure", "")))
+        t = to_minutes(str(log.get("timestamp", "")))
         if debut is not None and (t is None or t < debut):
             continue
         if fin is not None and (t is None or t > fin):
             continue
+        heure_affichee = log.get("timestamp", "?")[:5]
         resultats.append(
-            f"- `{log.get('heure', '?')}` — **{log.get('camera', '?')}** : {log.get('description', '')}"
+            f"- `{heure_affichee}` — **{log.get('camera_id', '?')}** ({log.get('location', '?')}) : {log.get('description', '')}"
         )
 
     if not resultats:

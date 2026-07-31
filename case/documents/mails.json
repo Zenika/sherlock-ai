@@ -1,0 +1,78 @@
+{
+  "boite_mail_principale": [
+    {
+      "id": "EMAIL_001",
+      "date": "2023-09-10T09:15:00",
+      "expediteur": "Le Propriétaire",
+      "destinataire": "Banque d'Affaires & Partners",
+      "sujet": "URGENT : Demande de ligne de crédit exceptionnelle",
+      "contenu": "Je vous assure que ce n'est qu'une question de trésorerie à court terme. Le Gala de ce soir va attirer de nouveaux investisseurs. Ne coupez pas les lignes maintenant. J'ai besoin de ce financement pour maintenir l'illusion."
+    },
+    {
+      "id": "EMAIL_002",
+      "date": "2023-09-11T14:30:00",
+      "expediteur": "Agence Immobilière Riviera",
+      "destinataire": "Le Propriétaire",
+      "sujet": "Re: Vente Villa & Yacht",
+      "contenu": "Monsieur, nous avons bien reçu vos instructions pour baisser le prix du Yacht de 30% pour une vente 'flash'. Concernant la maison secondaire, le marché est difficile, mais nous faisons le maximum pour liquider les actifs avant la fin du mois comme demandé."
+    },
+    {
+      "id": "EMAIL_003",
+      "date": "2023-09-08T10:00:00",
+      "expediteur": "Le Concurrent",
+      "destinataire": "Le Propriétaire",
+      "sujet": "Re: L'Éléphant",
+      "contenu": "Arrête de tourner autour du pot. Je sais que tu es aux abois. Tu m'as approché parce que tu sais que je suis le seul à pouvoir payer le prix fort pour cette pierre. Je viendrai au Gala. Si la pierre est authentique et que le prix est celui qu'on a discuté, je ferai une offre. Mais ne joue pas au plus malin avec moi."
+    },
+    {
+      "id": "EMAIL_004",
+      "date": "2023-09-12T10:00:00",
+      "expediteur": "Le Propriétaire",
+      "destinataire": "Le Gendre",
+      "sujet": "MISE AU POINT DÉFINITIVE",
+      "contenu": "C'est NON. Je t'ai déjà dit que je coupais les vivres. Tes dettes de jeu ne sont pas mon problème. Tu ne toucheras plus un centime de ma part. Trouve-toi un travail ou assume tes erreurs. Ne t'avise pas de faire un scandale ce soir."
+    },
+    {
+      "id": "EMAIL_005",
+      "date": "2023-09-12T10:15:00",
+      "expediteur": "Le Gendre",
+      "destinataire": "Le Propriétaire",
+      "sujet": "Re: MISE AU POINT DÉFINITIVE",
+      "contenu": "Tu ne peux pas faire ça ! Ils vont me tuer si je ne paie pas ! J'ai besoin de cet argent, juste une dernière fois papa. Je t'en supplie. On doit parler ce soir."
+    }
+  ],
+  "messagerie_securisee_et_sms": [
+    {
+      "id": "MSG_SECURE_88",
+      "date": "2023-03-14T23:45:00",
+      "application": "DarkWire (Encrypted)",
+      "expediteur": "Broker_X",
+      "destinataire": "Le Propriétaire",
+      "contenu": "Confirmation réception. Le client est satisfait de l'Animal de Luxe. Les fonds (12M) ont été virés sur votre compte suisse. La copie en verre synthétique a été livrée à votre domicile pour remplacement dans la vitrine. Discrétion assurée."
+    },
+    {
+      "id": "SMS_01",
+      "date": "2023-09-11T20:00:00",
+      "application": "SMS (Second Phone)",
+      "expediteur": "Le Propriétaire",
+      "destinataire": "La Maîtresse",
+      "contenu": "C'est terminé. Je ne peux plus t'entretenir. L'appartement, la voiture, tout s'arrête. Ne viens pas me voir."
+    },
+    {
+      "id": "SMS_02",
+      "date": "2023-09-11T20:05:00",
+      "application": "SMS (Second Phone)",
+      "expediteur": "La Maîtresse",
+      "destinataire": "Le Propriétaire",
+      "contenu": "Pardon ? Tu me jettes comme une vieille chaussette après tout ce que j'ai fait ? Tu crois que je vais disparaître sans rien dire ?"
+    },
+    {
+      "id": "SMS_03",
+      "date": "2023-09-12T18:00:00",
+      "application": "SMS (Second Phone)",
+      "expediteur": "La Maîtresse",
+      "destinataire": "Le Propriétaire",
+      "contenu": "Je serai là ce soir. Tu vas me le payer. Tu fais une grosse erreur."
+    }
+  ]
+}

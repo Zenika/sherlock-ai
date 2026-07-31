@@ -134,7 +134,7 @@ def ensure_investigators(admin_token: str) -> None:
 
 TOOLS_URL = os.environ.get("TOOLS_URL", "http://tools:8000")
 MCPO_API_KEY = os.environ.get("MCPO_API_KEY", "")
-TOOLS_PATH = os.environ.get("TOOLS_PATH", "/sherlock/openapi.json")
+TOOLS_PATH = os.environ.get("TOOLS_PATH", "/openapi.json")
 DEFAULT_MODELS = os.environ.get("DEFAULT_MODELS", "")
 ENABLED_MODELS = os.environ.get("ENABLED_MODELS", "")
 

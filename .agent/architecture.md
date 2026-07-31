@@ -20,8 +20,8 @@ Joueur (navigateur)
 │  - Proxy MCP → OpenAPI                                  │
 │  - Lance server.py en transport stdio                   │
 │  - Auto-génère le schema OpenAPI depuis les @mcp.tool() │
-│  - Route /sherlock/openapi.json (schéma)                │
-│  - Route /sherlock/docs (Swagger UI)                    │
+│  - Route /openapi.json (schéma)                         │
+│  - Route /docs (Swagger UI)                             │
 └──────────────┬──────────────────────────────────────────┘
                │ stdio (subprocess)
                ▼
@@ -45,7 +45,7 @@ Authorization: Bearer <token admin>
 {
   "TOOL_SERVER_CONNECTIONS": [{
     "url": "http://tools:8000",
-    "path": "/sherlock/openapi.json",
+    "path": "/openapi.json",
     "type": "openapi",
     "auth_type": "bearer",
     "key": "<MCPO_API_KEY>",

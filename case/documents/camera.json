@@ -1,0 +1,22 @@
+[
+  {
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale"
+  },
+  {
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon"
+  },
+  {
+    "camera_id": "CAM_VITRINE",
+    "location": "Zone Exposition (Zoom sur l'Éléphant)"
+  },
+  {
+    "camera_id": "CAM_BAR_ANGLE_SUD",
+    "location": "Coin Bar (Angle Mort)"
+  },
+  {
+    "camera_id": "CAM_COULOIR",
+    "location": "Couloir de Service"
+  }
+]

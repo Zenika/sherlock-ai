@@ -79,7 +79,7 @@ services:
       INVESTIGATOR_PASSWORD: ${INVESTIGATOR_PASSWORD}
       MCPO_API_KEY: ${MCPO_API_KEY}
       TOOLS_URL: http://tools:8000
-      TOOLS_PATH: /sherlock/openapi.json
+      TOOLS_PATH: /openapi.json
       DEFAULT_MODELS: ${DEFAULT_MODELS:-}
       ENABLED_MODELS: ${ENABLED_MODELS:-}
     volumes:

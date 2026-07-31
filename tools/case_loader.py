@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -29,14 +30,24 @@ def load_case() -> dict[str, Any]:
 
 @lru_cache(maxsize=1)
 def load_suspects() -> list[dict[str, Any]]:
-    """Liste des suspects (suspects.json)."""
-    return _read_json(CASE_DIR / "suspects.json")["suspects"]
+    """Construit la liste des suspects depuis les fichiers de prompts disponibles."""
+    prompts_dir = CASE_DIR / "prompts"
+    if not prompts_dir.exists():
+        return []
+    suspects = []
+    for path in sorted(prompts_dir.glob("*.md")):
+        suspect_id = path.stem
+        content = path.read_text(encoding="utf-8")
+        m = re.search(r"Tu es ([^,\.\n\(]+)", content)
+        nom = m.group(1).strip() if m else suspect_id
+        suspects.append({"id": suspect_id, "nom": nom})
+    return suspects
 
 
 @lru_cache(maxsize=1)
 def load_camera_logs() -> list[dict[str, Any]]:
     """Logs des caméras de surveillance (camera_logs.json)."""
-    return _read_json(CASE_DIR / "camera_logs.json")["logs"]
+    return _read_json(CASE_DIR / "camera_logs.json")
 
 
 def get_suspect(identifiant: str) -> dict[str, Any] | None:
@@ -66,15 +77,15 @@ def list_documents() -> list[dict[str, str]]:
     documents: list[dict[str, str]] = []
     if not docs_dir.exists():
         return documents
-    for path in sorted(docs_dir.glob("*.md")):
+    for path in sorted(p for p in docs_dir.iterdir() if p.suffix in (".md", ".json")):
         titre = path.stem
-        # Utilise le premier titre markdown comme libellé lisible si présent.
-        try:
-            first_line = path.read_text(encoding="utf-8").splitlines()[0]
-            if first_line.startswith("#"):
-                titre = first_line.lstrip("# ").strip()
-        except (OSError, IndexError):
-            pass
+        if path.suffix == ".md":
+            try:
+                first_line = path.read_text(encoding="utf-8").splitlines()[0]
+                if first_line.startswith("#"):
+                    titre = first_line.lstrip("# ").strip()
+            except (OSError, IndexError):
+                pass
         documents.append({"reference": path.stem, "titre": titre})
     return documents
 
@@ -93,16 +104,20 @@ def load_suspect_prompt(suspect_id: str) -> str | None:
 
 
 def read_document(reference: str) -> str | None:
-    """Renvoie le contenu markdown d'un document par sa référence (nom de fichier sans extension)."""
-    ref = reference.strip().lower().removesuffix(".md")
+    """Renvoie le contenu d'un document par sa référence (nom de fichier sans extension)."""
+    ref = reference.strip().lower().removesuffix(".md").removesuffix(".json")
     docs_dir = CASE_DIR / "documents"
     if not docs_dir.exists():
         return None
-    for path in docs_dir.glob("*.md"):
-        if path.stem.lower() == ref:
-            return path.read_text(encoding="utf-8")
+    candidates = [p for p in docs_dir.iterdir() if p.suffix in (".md", ".json")]
+    # Correspondance exacte, .md prioritaire sur .json.
+    for suffix in (".md", ".json"):
+        for path in candidates:
+            if path.suffix == suffix and path.stem.lower() == ref:
+                return path.read_text(encoding="utf-8")
     # Recherche partielle.
-    for path in docs_dir.glob("*.md"):
-        if ref in path.stem.lower():
-            return path.read_text(encoding="utf-8")
+    for suffix in (".md", ".json"):
+        for path in candidates:
+            if path.suffix == suffix and ref in path.stem.lower():
+                return path.read_text(encoding="utf-8")
     return None

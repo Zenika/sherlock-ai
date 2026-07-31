@@ -1,76 +1,110 @@
-{
-  "logs": [
-    {
-      "id": "cam-01",
-      "camera": "Grille d'entrée",
-      "horodatage": "12/09 20:15",
-      "description": "Marc arrive à la grille en voiture, sans y avoir été invité. Il est agité. Frank (chef de la sécurité) l'interpelle et doit le plaquer contre le mur avant de le laisser entrer sur ordre de Charles, pour éviter un scandale de presse."
-    },
-    {
-      "id": "cam-02",
-      "camera": "Hall principal",
-      "horodatage": "12/09 20:30",
-      "description": "Marc et Charles s'affrontent violemment dans le salon principal. Charles crie qu'il ne donnera jamais un centime à Marc et qu'il va le déshériter. Marc est furieux, Alexandre Vautier assiste à la scène de loin."
-    },
-    {
-      "id": "cam-03",
-      "camera": "Salle de réception (vitrine)",
-      "horodatage": "12/09 21:00",
-      "description": "Alexandre Vautier et Charles Van Der Weyden discutent à voix basse près de la vitrine contenant le diamant 'L'Éléphant'. L'échange semble tendu mais discret."
-    },
-    {
-      "id": "cam-04",
-      "camera": "Bar (angle principal)",
-      "horodatage": "12/09 21:15",
-      "description": "Sophie Duval rejoint Charles au bar. Ils échangent quelques mots. Sophie lui tend un verre. Charles boit. Sophie s'éloigne quelques minutes plus tard."
-    },
-    {
-      "id": "cam-04b",
-      "camera": "Bar (angle caché — caméra plafond)",
-      "horodatage": "12/09 21:15",
-      "description": "ANGLE CACHÉ — Vue de dessus : La main de Sophie Duval passe au-dessus du verre de Charles AVANT de le lui tendre. Geste discret mais visible. Durée : moins d'une seconde."
-    },
-    {
-      "id": "cam-05",
-      "camera": "Entrée du manoir (portail extérieur)",
-      "horodatage": "12/09 21:30",
-      "description": "Sophie Duval quitte le manoir à pied, seule, sac à main sur l'épaule. Elle part avant la coupure de courant."
-    },
-    {
-      "id": "cam-06",
-      "camera": "Bar (angle principal)",
-      "horodatage": "12/09 21:45",
-      "description": "Charles Van Der Weyden est au bar. Il transpire, tremble légèrement. Alexandre Vautier l'observe de loin. Charles a l'air de mal supporter son verre."
-    },
-    {
-      "id": "cam-07",
-      "camera": "Couloir de service (sous-sol)",
-      "horodatage": "12/09 21:50",
-      "description": "Thomas (serveur) descend au sous-sol par le couloir de service et s'approche du tableau électrique principal. Il est seul. Ce mouvement précède la coupure de courant de 10 minutes."
-    },
-    {
-      "id": "cam-08",
-      "camera": "Toutes caméras",
-      "horodatage": "12/09 22:00",
-      "description": "COUPURE GÉNÉRALE — Toutes les caméras tombent à 22h00 précises. Plus aucun enregistrement pendant 5 minutes."
-    },
-    {
-      "id": "cam-09",
-      "camera": "Couloir service / vitrine",
-      "horodatage": "12/09 22:05",
-      "description": "Les caméras reprennent à 22h05. Julien (serveur) est visible dans le couloir de service. La vitrine contenant 'L'Éléphant' est OUVERTE. La pierre n'est plus à sa place."
-    },
-    {
-      "id": "cam-10",
-      "camera": "Jardin / terrasse",
-      "horodatage": "12/09 22:10",
-      "description": "Marc court vers la grille du jardin dans l'obscurité. Il tient quelque chose dans la main droite. Il trébuche. La police l'intercepte à la grille quelques minutes plus tard."
-    },
-    {
-      "id": "cam-11",
-      "camera": "Couloir Bureau Privé",
-      "horodatage": "12/09 22:20",
-      "description": "Ambrine Van Der Weyden ouvre la porte du Bureau Privé. Elle porte sa pochette de soirée. Elle hurle. Frank Miller arrive 30 secondes plus tard. Charles est retrouvé mort sur son fauteuil. La fenêtre est ouverte."
-    }
-  ]
-}
+[
+  {
+    "timestamp": "18:30:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "Arrivée du personnel de service et de sécurité. Vérification des badges."
+  },
+  {
+    "timestamp": "19:30:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "Début de l'arrivée des invités. Contrôle des invitations."
+  },
+  {
+    "timestamp": "19:45:00",
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon",
+    "description": "Les invités entrent progressivement. Le Propriétaire accueille les gens au centre de la pièce."
+  },
+  {
+    "timestamp": "20:15:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "Incident. Le Gendre tente d'entrer. Refusé par la sécurité (pas sur la liste). Altercation physique mineure. Après négociation, la sécurité le laisse passer."
+  },
+  {
+    "timestamp": "20:30:00",
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon",
+    "description": "Foule dense. De nombreux invités encerclent le Propriétaire et le sollicitent sans cesse."
+  },
+  {
+    "timestamp": "21:00:00",
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon",
+    "description": "Altercation près de la vitrine. Le Gendre essaie d'ouvrir la vitrine de l'Éléphant. Le Propriétaire s'interpose physiquement."
+  },
+  {
+    "timestamp": "21:00:00",
+    "camera_id": "CAM_VITRINE",
+    "location": "Zone Exposition (Zoom sur l'Éléphant)",
+    "description": "Gros plan : La main du Gendre sur la poignée de la vitrine. Le Propriétaire la repousse violemment. Le diamant est toujours en place."
+  },
+  {
+    "timestamp": "21:15:00",
+    "camera_id": "CAM_BAR_ANGLE_SUD",
+    "location": "Coin Bar (Angle Mort)",
+    "description": "[RESTRICTED - LOW VISIBILITY] La Maîtresse profite que le Propriétaire regarde ailleurs pour verser une poudre dans sa coupe de champagne."
+  },
+  {
+    "timestamp": "21:30:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "Départ anticipé de plusieurs invités, dont la Maîtresse, bien avant le discours."
+  },
+  {
+    "timestamp": "21:45:00",
+    "camera_id": "CAM_COULOIR",
+    "location": "Couloir de Service",
+    "description": "Le Serveur 1 regarde autour de lui, puis se glisse discrètement dans le local technique."
+  },
+  {
+    "timestamp": "21:55:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "COUPURE D'ALIMENTATION. Signal perdu."
+  },
+  {
+    "timestamp": "21:55:00",
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon",
+    "description": "COUPURE D'ALIMENTATION. Signal perdu."
+  },
+  {
+    "timestamp": "21:55:00",
+    "camera_id": "CAM_VITRINE",
+    "location": "Zone Exposition (Zoom sur l'Éléphant)",
+    "description": "COUPURE D'ALIMENTATION. Signal perdu."
+  },
+  {
+    "timestamp": "21:55:00",
+    "camera_id": "CAM_COULOIR",
+    "location": "Couloir de Service",
+    "description": "COUPURE D'ALIMENTATION. Signal perdu."
+  },
+  {
+    "timestamp": "22:05:00",
+    "camera_id": "CAM_ENTREE",
+    "location": "Entrée Principale",
+    "description": "Alimentation de secours (image sombre). Foule en panique sortant du bâtiment."
+  },
+  {
+    "timestamp": "22:05:00",
+    "camera_id": "CAM_SALON",
+    "location": "Grand Salon",
+    "description": "Alimentation de secours (image sombre). La salle se vide précipitamment."
+  },
+  {
+    "timestamp": "22:10:00",
+    "camera_id": "CAM_VITRINE",
+    "location": "Zone Exposition (Zoom sur l'Éléphant)",
+    "description": "Retour lumière de secours. La vitrine est ouverte. Le support du diamant est vide. Personne n'est présent dans le champ."
+  },
+  {
+    "timestamp": "22:30:00",
+    "camera_id": "CAM_VITRINE",
+    "location": "Zone Exposition (Zoom sur l'Éléphant)",
+    "description": "Arrivée de la Police. Sécurisation de la vitrine. Analyse des images : aucun mouvement détecté près de l'objet depuis le retour du signal à 22:10."
+  }
+]

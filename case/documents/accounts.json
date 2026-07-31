@@ -1,0 +1,51 @@
+{
+  "document_type": "Relevé Bancaire Mensuel",
+  "banque": "Banque Privée Internationale (Geneva)",
+  "titulaire": "Charles Van Der Weyden",
+  "compte_id": "CH-98-7654-3210",
+  "periode": "Derniers 6 mois",
+  "devise": "EUR",
+  "solde_actuel": -15420.50,
+  "statut_compte": "EN DÉBIT - BLOCAGE IMMINENT",
+  "historique_transactions_majeures": [
+    {
+      "date": "2023-09-12",
+      "libelle": "RETRAIT GAB - CASINO IMPERIAL",
+      "montant": -2000.00,
+      "solde_apres": -15420.50
+    },
+    {
+      "date": "2023-09-10",
+      "libelle": "VIREMENT ENTRANT - FONDATION CHARITÉ (FONDS GALA)",
+      "montant": 50000.00,
+      "solde_apres": -13420.50
+    },
+    {
+      "date": "2023-09-11",
+      "libelle": "VIREMENT SORTANT - RECOUVREMENT DETTES DE JEU",
+      "montant": -50000.00,
+      "solde_apres": -63420.50,
+      "destinataire": "Jules"
+    },
+    {
+      "date": "2023-08-01",
+      "libelle": "FRAIS BANCAIRES - DÉCOUVERT AUTORISÉ DÉPASSÉ",
+      "montant": -500.00,
+      "solde_apres": -13420.50
+    },
+    {
+      "date": "2023-03-15",
+      "libelle": "VIREMENT ENTRANT - ANONYME (REF: VENTE PRIVÉE LOT #88 - L'ELEPHANT)",
+      "montant": 12000000.00,
+      "solde_apres": 11950000.00,
+      "destinataire": "Elon Musk"
+    },
+    {
+      "date": "2023-03-16",
+      "libelle": "VIREMENT SORTANT - HOLDING 'SHARK' INVESTMENTS (REMBOURSEMENT CAPITAL+INTÉRÊTS)",
+      "montant": -12000000.00,
+      "solde_apres": -50000.00,
+      "destinataire": "Shark industries"
+    }
+  ]
+}

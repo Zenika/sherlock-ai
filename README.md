@@ -83,7 +83,7 @@ Au premier démarrage, le bootstrap crée automatiquement :
 |------|-----|-------------|
 | Interface enquêteur | http://localhost:3000 | `enqueteur1@sherlock.local` / `INVESTIGATOR_PASSWORD` |
 | Admin | http://localhost:3000 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` |
-| Docs outils MCP | http://localhost:8000/sherlock/docs | clé : `MCPO_API_KEY` |
+| Docs outils MCP | http://localhost:8000/docs | clé : `MCPO_API_KEY` |
 
 ## 🗂️ Contenu de l'enquête
 
