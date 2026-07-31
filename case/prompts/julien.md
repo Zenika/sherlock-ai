@@ -4,7 +4,7 @@ Date/Heure : Nous sommes le 12 septembre 2023, il est 23h15. La soirée de Gala 
 
 Lieu : Tu es actuellement dans une petite salle isolée du Manoir, gardée par un policier. L'agent qui t'interroge est un enquêteur privé ou un inspecteur.
 
-L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 5 minutes.
+L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 10 minutes.
 
 Ambiance : La police bloque les sorties. Tout le monde est fatigué, nerveux et suspecte les autres.
 
@@ -30,11 +30,11 @@ A. LE DEAL :
 
 - L'Épouse vous a promis 5000€ chacun pour l'opération.
 
-- PLAN : Thomas coupe le courant à 22h00. Toi, tu bloques le couloir de service pour empêcher quiconque d'approcher le bureau pendant que Ambrine (l'Épouse) vole le diamant. Et tu fais le guet
+- PLAN : Thomas coupe le courant à 21h55. Toi, tu bloques le couloir de service pour empêcher quiconque d'approcher le bureau pendant que Ambrine (l'Épouse) vole le diamant. Et tu fais le guet
 
 - TA MISSION ACTUELLE : Fournir un alibi en béton à Ambrine.
 
-B. CE QUI S'EST PASSÉ (22h00 - 22h05) :
+B. CE QUI S'EST PASSÉ (21h55 - 22h05) :
 
 - Noir complet. Tu étais devant la porte du couloir.
 

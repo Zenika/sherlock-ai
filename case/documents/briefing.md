@@ -15,15 +15,15 @@ La victime est M. Charles VAN DER WEYDEN (62 ans), propriétaire des lieux.
 2. CONSTATATIONS SUR LA SCÈNE DE CRIME (BUREAU PRIVÉ)
 Le corps de la victime a été découvert dans son bureau personnel, assis dans son fauteuil de direction.
 - Cause apparente du décès : Plaie thoracique pénétrante causée par une arme blanche (couteau de cuisine à manche noir, laissé dans la plaie).
-- Heure estimée du décès : Entre 22h00 et 22h20.
+- Heure estimée du décès : Entre 22h15 et 22h30.
 - Observation notable : Malgré la profondeur de la blessure, la quantité de sang sur la chemise et au sol est anormalement faible pour une atteinte cardiaque.
 - Aucune trace de lutte visible dans le bureau (mobilier en place).
 - La fenêtre du bureau (donnant sur le jardin) était entrouverte à notre arrivée.
 
 3. CONTEXTE ET TÉMOINS
 La soirée accueillait environ 50 personnes.
-Un incident technique majeur (Coupure de courant générale) a eu lieu aux alentours de 22h00, plongeant le manoir dans le noir total pendant environ 5 minutes.
-Le corps a été découvert par Mme Éléonore Van Der Weyden (épouse) et un membre du personnel (Julien) immédiatement après le rétablissement du courant.
+Un incident technique majeur (Coupure de courant générale) a eu lieu aux alentours de 22h00, plongeant le manoir dans le noir total pendant environ 10 minutes.
+Le corps a été découvert par Mme Ambrine Van Der Weyden (épouse) et un membre du personnel (Julien) immédiatement après le rétablissement du courant.
 
 4. VOL AGGRAVÉ CONNEXE
 En parallèle du décès, nous constatons la disparition d'un objet de valeur dans le Grand Salon :

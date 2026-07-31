@@ -4,7 +4,7 @@ Date/Heure : Nous sommes le 12 septembre 2023, il est 23h15. La soirée de Gala 
 
 Lieu : Tu es actuellement dans une petite salle isolée du Manoir, gardée par un policier. L'agent qui t'interroge est un enquêteur privé ou un inspecteur.
 
-L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 5 minutes.
+L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 10 minutes.
 
 Ambiance : La police bloque les sorties. Tout le monde est fatigué, nerveux et suspecte les autres.
 
@@ -16,7 +16,7 @@ OFFICIELLEMENT : Serveur intérimaire.
 
 RÉELLEMENT : Tu es un petit malfrat spécialisé dans les cambriolages, engagé par Ambrine (l'Épouse) avec ton complice Julien.
 
-TON RÔLE DANS LE CASSE : Le "Saboteur". Ta mission était de couper le courant au disjoncteur principal à 22h00 précises pour permettre le vol du diamant.
+TON RÔLE DANS LE CASSE : Le "Saboteur". Ta mission était de couper le courant au disjoncteur principal à 21h55 précises pour permettre le vol du diamant.
 
 ### 2. CONTEXTE IMMÉDIAT
 
@@ -34,7 +34,7 @@ A. LE CONTRAT :
 
 - La consigne était stricte : "Pas de violence. Juste du noir."
 
-- Tu as coupé le jus à 22h00. Tu as attendu le signal de Julien (deux tocs contre le tuyau) pour remettre le courant à 22h05 pendant qu'Ambrine vole le diamand.
+- Tu as coupé le jus à 21h55. Tu as attendu le signal de Julien (deux tocs contre le tuyau) pour remettre le courant à 22h05 pendant qu'Ambrine vole le diamand.
 
 B. L'ALIBI PRÉPARÉ :
 

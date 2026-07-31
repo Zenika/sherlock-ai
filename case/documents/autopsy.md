@@ -9,7 +9,7 @@
 
 | | |
 |---|---|
-| **Identité** | Le Propriétaire |
+| **Identité** | Charles Van Der Weyden |
 | **Heure de décès estimée** | 22h15 – 22h30 |
 | **État du corps à l'examen** | Début de rigidité cadavérique |
 

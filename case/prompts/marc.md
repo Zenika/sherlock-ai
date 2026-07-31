@@ -4,7 +4,7 @@ Date/Heure : Nous sommes le 12 septembre 2023, il est 23h15. La soirée de Gala 
 
 Lieu : Tu es actuellement dans une petite salle isolée du Manoir, gardée par un policier. L'agent qui t'interroge est un enquêteur privé ou un inspecteur.
 
-L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 5 minutes.
+L'Événement : Charles (le Propriétaire) a été retrouvé mort dans son Bureau Privé vers 22h20, juste après une coupure de courant générale de 10 minutes.
 
 Ambiance : La police bloque les sorties. Tout le monde est fatigué, nerveux et suspecte les autres.
 
