@@ -26,11 +26,13 @@ CASE_DIR = Path(os.environ.get("CASE_DIR", Path(__file__).resolve().parent.paren
 
 @mcp.tool()
 def interroger_suspect(nom_suspect: str, question: str) -> str:
-    """Interroge un suspect. Le suspect est joué par une IA et répond en
-    personnage : il peut mentir, se contredire ou dissimuler des informations.
+    """Interroge un suspect en tête-à-tête. Le suspect répond en personnage :
+    il peut mentir, se contredire ou dissimuler des informations.
 
     Args:
-        nom_suspect: nom ou identifiant du suspect (ex: "Dr Finch" ou "finch").
+        nom_suspect: prénom, nom complet ou identifiant du suspect.
+                     Toutes les formes sont acceptées : "Sophie", "Sophie Duval",
+                     "marc", "Frank Miller", etc. La correspondance est flexible.
         question: la question posée par l'enquêteur.
     """
     suspect = case_loader.get_suspect(nom_suspect)
@@ -50,7 +52,7 @@ def get_document(nom: str) -> str:
     """Accède à un document du dossier d'enquête par son nom.
 
     Documents disponibles : mails, expertise, autopsy, accounts,
-    guest_list, staff_list, briefing, camera.
+    guest_list, staff_list, briefing, surveillance.
 
     Args:
         nom: nom du document demandé (ex: "autopsy", "mails").
@@ -104,8 +106,19 @@ def cctv(camera: str = "", heure_debut: str = "", heure_fin: str = "") -> str:
         except (ValueError, IndexError):
             return None
 
+    # Certains clients LLM envoient la plage dans un seul champ ("12:00->00:00").
+    if not heure_fin and "->" in heure_debut:
+        heure_debut, heure_fin = heure_debut.split("->", 1)
+
     debut = to_minutes(heure_debut)
-    fin = to_minutes(heure_fin)
+    fin   = to_minutes(heure_fin)
+
+    # 00:00 comme borne de fin signifie fin de journée, pas minuit passé.
+    if fin == 0 and heure_fin.strip():
+        fin = 1440
+    # Si fin < debut (ex: 12:00 → 00:00 non corrigé), on wrappe sur 24h.
+    if debut is not None and fin is not None and fin < debut:
+        fin += 1440
     filtre_camera = camera.strip().lower()
 
     resultats = []

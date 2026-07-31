@@ -38,7 +38,11 @@ def load_suspects() -> list[dict[str, Any]]:
     for path in sorted(prompts_dir.glob("*.md")):
         suspect_id = path.stem
         content = path.read_text(encoding="utf-8")
-        m = re.search(r"Tu es ([^,\.\n\(]+)", content)
+        # Chercher le nom uniquement dans la section IDENTITÉ pour éviter
+        # les faux-positifs du header ("Tu es actuellement dans une salle...").
+        section = re.search(r"### 1\..*?IDENTIT.*?\n(.*?)(?=###|\Z)", content, re.DOTALL | re.IGNORECASE)
+        search_in = section.group(1) if section else content
+        m = re.search(r"Tu es ([^,\.\n\(]+)", search_in)
         nom = m.group(1).strip() if m else suspect_id
         suspects.append({"id": suspect_id, "nom": nom})
     return suspects
@@ -51,22 +55,30 @@ def load_camera_logs() -> list[dict[str, Any]]:
 
 
 def get_suspect(identifiant: str) -> dict[str, Any] | None:
-    """Retrouve un suspect par son id ou son nom (insensible à la casse)."""
+    """Retrouve un suspect par son id, prénom, nom ou extrait de nom."""
     besoin = identifiant.strip().lower()
-    for suspect in load_suspects():
-        if suspect["id"].lower() == besoin or suspect["nom"].lower() == besoin:
-            return suspect
-    # Recherche partielle sur le nom (ex: "finch" -> "Dr Aloysius Finch").
-    for suspect in load_suspects():
-        if besoin in suspect["nom"].lower():
-            return suspect
+    suspects = load_suspects()
+    # 1. Correspondance exacte sur id ou nom complet.
+    for s in suspects:
+        if s["id"].lower() == besoin or s["nom"].lower() == besoin:
+            return s
+    # 2. Le terme est contenu dans le nom (ex: "sophie" dans "Sophie Duval").
+    for s in suspects:
+        if besoin in s["nom"].lower():
+            return s
+    # 3. Un mot du terme est contenu dans le nom (ex: "duval" ou "mme sophie duval").
+    mots = [m for m in re.split(r"[\s_\-]+", besoin) if len(m) > 2]
+    for mot in mots:
+        for s in suspects:
+            if mot in s["nom"].lower() or mot == s["id"].lower():
+                return s
     return None
 
 
 def list_suspects_publics() -> list[dict[str, str]]:
     """Vue publique des suspects (sans les secrets ni la solution)."""
     return [
-        {"id": s["id"], "nom": s["nom"], "role": s["role"]}
+        {"id": s["id"], "nom": s["nom"]}
         for s in load_suspects()
     ]
 
@@ -103,6 +115,11 @@ def load_suspect_prompt(suspect_id: str) -> str | None:
     return None
 
 
+def _normalize_ref(s: str) -> str:
+    """Dépluralise chaque segment pour une recherche flexible (ex: guests_list → guest_list)."""
+    return "_".join(w.rstrip("s") for w in s.split("_"))
+
+
 def read_document(reference: str) -> str | None:
     """Renvoie le contenu d'un document par sa référence (nom de fichier sans extension)."""
     ref = reference.strip().lower().removesuffix(".md").removesuffix(".json")
@@ -110,14 +127,22 @@ def read_document(reference: str) -> str | None:
     if not docs_dir.exists():
         return None
     candidates = [p for p in docs_dir.iterdir() if p.suffix in (".md", ".json")]
-    # Correspondance exacte, .md prioritaire sur .json.
-    for suffix in (".md", ".json"):
-        for path in candidates:
-            if path.suffix == suffix and path.stem.lower() == ref:
-                return path.read_text(encoding="utf-8")
-    # Recherche partielle.
-    for suffix in (".md", ".json"):
-        for path in candidates:
-            if path.suffix == suffix and ref in path.stem.lower():
-                return path.read_text(encoding="utf-8")
-    return None
+
+    def _match(ref_key: str) -> str | None:
+        # Correspondance exacte, .md prioritaire sur .json.
+        for suffix in (".md", ".json"):
+            for path in candidates:
+                if path.suffix == suffix and path.stem.lower() == ref_key:
+                    return path.read_text(encoding="utf-8")
+        # Correspondance partielle.
+        for suffix in (".md", ".json"):
+            for path in candidates:
+                if path.suffix == suffix and ref_key in path.stem.lower():
+                    return path.read_text(encoding="utf-8")
+        return None
+
+    result = _match(ref)
+    if result is None:
+        # Deuxième passe avec normalisation (dépluralisation).
+        result = _match(_normalize_ref(ref))
+    return result

@@ -15,49 +15,49 @@
     "timestamp": "19:45:00",
     "camera_id": "CAM_SALON",
     "location": "Grand Salon",
-    "description": "Les invités entrent progressivement. Le Propriétaire accueille les gens au centre de la pièce."
+    "description": "Les invités entrent progressivement. Charles Van Der Weyden accueille les gens au centre de la pièce."
   },
   {
     "timestamp": "20:15:00",
     "camera_id": "CAM_ENTREE",
     "location": "Entrée Principale",
-    "description": "Incident. Le Gendre tente d'entrer. Refusé par la sécurité (pas sur la liste). Altercation physique mineure. Après négociation, la sécurité le laisse passer."
+    "description": "Incident. Marc tente d'entrer. Refusé par la sécurité (pas sur la liste). Altercation physique mineure. Après négociation, la sécurité le laisse passer."
   },
   {
     "timestamp": "20:30:00",
     "camera_id": "CAM_SALON",
     "location": "Grand Salon",
-    "description": "Foule dense. De nombreux invités encerclent le Propriétaire et le sollicitent sans cesse."
+    "description": "Foule dense. De nombreux invités encerclent Charles Van Der Weyden et le sollicitent sans cesse."
   },
   {
     "timestamp": "21:00:00",
     "camera_id": "CAM_SALON",
     "location": "Grand Salon",
-    "description": "Altercation près de la vitrine. Le Gendre essaie d'ouvrir la vitrine de l'Éléphant. Le Propriétaire s'interpose physiquement."
+    "description": "Altercation près de la vitrine. Marc essaie d'ouvrir la vitrine de l'Éléphant. Charles Van Der Weyden s'interpose physiquement."
   },
   {
     "timestamp": "21:00:00",
     "camera_id": "CAM_VITRINE",
     "location": "Zone Exposition (Zoom sur l'Éléphant)",
-    "description": "Gros plan : La main du Gendre sur la poignée de la vitrine. Le Propriétaire la repousse violemment. Le diamant est toujours en place."
+    "description": "Gros plan : La main de Marc sur la poignée de la vitrine. Charles Van Der Weyden la repousse violemment. Le diamant est toujours en place."
   },
   {
     "timestamp": "21:15:00",
     "camera_id": "CAM_BAR_ANGLE_SUD",
     "location": "Coin Bar (Angle Mort)",
-    "description": "[RESTRICTED - LOW VISIBILITY] La Maîtresse profite que le Propriétaire regarde ailleurs pour verser une poudre dans sa coupe de champagne."
+    "description": "[RESTRICTED - LOW VISIBILITY] Sophie Duval profite que Charles Van Der Weyden regarde ailleurs pour verser une poudre dans sa coupe de champagne."
   },
   {
     "timestamp": "21:30:00",
     "camera_id": "CAM_ENTREE",
     "location": "Entrée Principale",
-    "description": "Départ anticipé de plusieurs invités, dont la Maîtresse, bien avant le discours."
+    "description": "Départ anticipé de plusieurs invités, dont Sophie Duval, bien avant le discours."
   },
   {
     "timestamp": "21:45:00",
     "camera_id": "CAM_COULOIR",
     "location": "Couloir de Service",
-    "description": "Le Serveur 2 regarde autour de lui, puis se glisse discrètement dans le local technique."
+    "description": "Thomas regarde autour de lui, puis se glisse discrètement dans le local technique."
   },
   {
     "timestamp": "21:55:00",
