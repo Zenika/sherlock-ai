@@ -84,6 +84,7 @@ services:
       TOOLS_PATH: /openapi.json
       DEFAULT_MODELS: ${DEFAULT_MODELS:-}
       ENABLED_MODELS: ${ENABLED_MODELS:-}
+      REASONING_MODELS: ${REASONING_MODELS:-}
     volumes:
       - ./bootstrap:/bootstrap:ro
     command: ["python", "/bootstrap/init_accounts.py"]

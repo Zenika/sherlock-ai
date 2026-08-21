@@ -64,6 +64,7 @@ Renseignez au minimum :
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Compte administrateur |
 | `INVESTIGATOR_PASSWORD` | Mot de passe commun des enquêteurs |
 | `ENABLED_MODELS` | Modèles visibles aux enquêteurs (séparés par `;`) |
+| `REASONING_MODELS` | Sous-ensemble de `ENABLED_MODELS` nécessitant `reasoning_effort="none"` (modèles reasoning type o1/o3/gpt-5.x) |
 
 ### 3. Lancer
 
@@ -124,6 +125,10 @@ Les enquêteurs voient uniquement les modèles listés dans `ENABLED_MODELS` (`.
 # Exemple : 3 modèles, du plus léger au plus puissant
 ENABLED_MODELS=gpt-4o-mini;gpt-4o;gpt-5-mini
 DEFAULT_MODELS=gpt-4o-mini
+# gpt-5-mini est un modèle reasoning : reasoning_effort="none" lui est appliqué
+# automatiquement (requis pour compatibilité avec le tool calling). Ne pas
+# mettre gpt-4o/gpt-4o-mini ici, ce paramètre casse ces modèles.
+REASONING_MODELS=gpt-5-mini
 ```
 
 **Ajouter ou modifier les modèles disponibles** :

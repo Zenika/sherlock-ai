@@ -137,6 +137,11 @@ MCPO_API_KEY = os.environ.get("MCPO_API_KEY", "")
 TOOLS_PATH = os.environ.get("TOOLS_PATH", "/openapi.json")
 DEFAULT_MODELS = os.environ.get("DEFAULT_MODELS", "")
 ENABLED_MODELS = os.environ.get("ENABLED_MODELS", "")
+REASONING_MODELS = os.environ.get("REASONING_MODELS", "")
+# Tag posé sur les modèles créés par ce script, pour ne supprimer que ceux-ci
+# lors du retrait d'un modèle de ENABLED_MODELS (ne touche pas aux modèles
+# créés manuellement par l'admin dans l'UI).
+BOOTSTRAP_MODEL_TAG = "sherlock-bootstrap"
 
 
 def _put(path: str, payload: dict, token: str) -> tuple[int, dict]:
@@ -258,6 +263,7 @@ def ensure_public_models(admin_token: str) -> None:
         return
 
     model_ids = [m.strip() for m in ENABLED_MODELS.replace(",", ";").split(";") if m.strip()]
+    reasoning_model_ids = {m.strip() for m in REASONING_MODELS.replace(",", ";").split(";") if m.strip()}
     public_read_grant = {"principal_type": "user", "principal_id": "*", "permission": "read"}
 
     # Récupère les modèles custom existants (pour éviter les doublons).
@@ -278,6 +284,12 @@ def ensure_public_models(admin_token: str) -> None:
             existing_by_id[m.get("id", "")] = m
 
     for model_id in model_ids:
+        # reasoning_effort="none" uniquement pour les modèles listés dans
+        # REASONING_MODELS : ce paramètre casse gpt-4o/gpt-4o-mini (non supporté
+        # par ces modèles), mais est requis pour les modèles reasoning combinés
+        # au tool calling (interroger_suspect etc.) sur /v1/chat/completions.
+        wants_reasoning_fix = model_id in reasoning_model_ids
+
         if model_id in existing_by_id:
             m = existing_by_id[model_id]
             grants = m.get("access_grants") or []
@@ -289,7 +301,15 @@ def ensure_public_models(admin_token: str) -> None:
             )
             # Si base_model_id est non-null le modèle est une dérivation et
             # n'apparaît pas dans /api/models — on le supprime pour le recréer.
-            needs_recreate = m.get("base_model_id") is not None
+            # Idem si reasoning_effort ne correspond pas à REASONING_MODELS ou
+            # si le tag de suivi est absent.
+            existing_tags = (m.get("meta") or {}).get("tags") or []
+            existing_tag_names = {t.get("name") if isinstance(t, dict) else t for t in existing_tags}
+            current_reasoning_effort = (m.get("params") or {}).get("reasoning_effort")
+            expected_reasoning_effort = "none" if wants_reasoning_fix else None
+            missing_reasoning_fix = current_reasoning_effort != expected_reasoning_effort
+            missing_tag = BOOTSTRAP_MODEL_TAG not in existing_tag_names
+            needs_recreate = m.get("base_model_id") is not None or missing_reasoning_fix or missing_tag
             if already_public and not needs_recreate:
                 print(f"[bootstrap] Modèle déjà public : {model_id}", flush=True)
                 continue
@@ -309,11 +329,12 @@ def ensure_public_models(admin_token: str) -> None:
         # Crée l'entrée de modèle public avec base_model_id=null (requis pour
         # que le modèle apparaisse dans /api/models pour les non-admins).
         public_grant = {"principal_type": "user", "principal_id": "*", "permission": "read"}
+        model_params = {"reasoning_effort": "none"} if wants_reasoning_fix else {}
         payload = json.dumps({
             "id": model_id,
             "name": model_id,
             "base_model_id": None,   # NULL = modèle de base visible dans /api/models
-            "params": {},
+            "params": model_params,
             "meta": {
                 "description": None,
                 "profile_image_url": "/static/favicon.png",
@@ -324,7 +345,7 @@ def ensure_public_models(admin_token: str) -> None:
                     "status_updates": True, "memory": True, "builtin_tools": True,
                     "terminal": True,
                 },
-                "tags": [],
+                "tags": [BOOTSTRAP_MODEL_TAG],
             },
             "access_grants": [public_grant],
             "is_active": True,
@@ -346,6 +367,29 @@ def ensure_public_models(admin_token: str) -> None:
         except urllib.error.HTTPError as exc:
             body = exc.read().decode("utf-8", "ignore")
             print(f"[bootstrap] Avertissement modèle {model_id}: {exc.code} {body[:120]}", flush=True)
+
+    # Retire les modèles précédemment publiés par le bootstrap mais désormais
+    # absents de ENABLED_MODELS (ex: retrait manuel dans le .env).
+    wanted_ids = set(model_ids)
+    for existing_id, m in existing_by_id.items():
+        if existing_id in wanted_ids:
+            continue
+        tags = (m.get("meta") or {}).get("tags") or []
+        # OpenWebUI normalise les tags en [{"name": "..."}], pas une liste de strings.
+        tag_names = {t.get("name") if isinstance(t, dict) else t for t in tags}
+        if BOOTSTRAP_MODEL_TAG not in tag_names:
+            continue  # ne touche pas aux modèles créés manuellement par l'admin
+        req_del = urllib.request.Request(
+            f"{BASE}/api/v1/models/model/delete",
+            json.dumps({"id": existing_id}).encode(),
+            {"Content-Type": "application/json"},
+        )
+        req_del.add_header("Authorization", f"Bearer {admin_token}")
+        try:
+            urllib.request.urlopen(req_del, timeout=15)
+            print(f"[bootstrap] Modèle retiré (absent de ENABLED_MODELS) : {existing_id}", flush=True)
+        except Exception as exc:
+            print(f"[bootstrap] Avertissement : suppression modèle {existing_id} — {exc}", flush=True)
 
 
 def ensure_default_model(admin_token: str) -> None:
