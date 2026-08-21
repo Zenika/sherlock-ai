@@ -3,7 +3,9 @@ services:
   # Interface enquêteur : Open WebUI (agnostique du provider LLM).
   # ---------------------------------------------------------------------------
   openwebui:
-    image: ghcr.io/open-webui/open-webui:main
+    # Version figée pour éviter les régressions surprises entre déploiements
+    # (`:main` change sans préavis). Tester avant de bump.
+    image: ghcr.io/open-webui/open-webui:v0.11.0
     container_name: sherlock-openwebui
     restart: unless-stopped
     ports:

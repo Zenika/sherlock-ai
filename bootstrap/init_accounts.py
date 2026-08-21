@@ -162,6 +162,20 @@ def ensure_tool_server(admin_token: str) -> None:
         print("[bootstrap] MCPO_API_KEY non définie, enregistrement du tool server ignoré.", flush=True)
         return
 
+    # Accorde l'accès en lecture à tous les utilisateurs (sinon seul l'admin
+    # voit l'outil — cf. has_access() dans OpenWebUI qui exige des access_grants
+    # explicites sur config.access_grants pour les connexions non-admin).
+    public_read_grant = {"principal_type": "user", "principal_id": "*", "permission": "read"}
+
+    # Nom affiché du tool server. ATTENTION : si "name" est présent (même vide)
+    # dans `info`, OpenWebUI écrase le titre de l'OpenAPI spec par cette valeur
+    # (get_tool_servers_data) — il ne faut donc jamais y laisser une chaîne vide.
+    tool_server_info = {
+        "id": "sherlock",
+        "name": "Sherlock AI",
+        "description": "Outils d'investigation pour l'enquête Sherlock AI",
+    }
+
     # Lecture des connexions existantes.
     req = urllib.request.Request(f"{BASE}/api/v1/configs/tool_servers")
     req.add_header("Authorization", f"Bearer {admin_token}")
@@ -173,10 +187,37 @@ def ensure_tool_server(admin_token: str) -> None:
 
     connections = existing.get("TOOL_SERVER_CONNECTIONS", []) or []
 
-    # Vérifie si déjà enregistré (idempotence sur l'URL).
+    # Purge les entrées obsolètes pointant vers cette URL avec un autre chemin
+    # (ex: ancien /sherlock/openapi.json remplacé par /openapi.json).
+    connections = [
+        conn for conn in connections
+        if not (conn.get("url") == TOOLS_URL and conn.get("path") != TOOLS_PATH)
+    ]
+
+    # Vérifie si déjà enregistré (idempotence sur l'URL) ; rattrape l'accès et le nom si besoin.
     for conn in connections:
         if conn.get("url") == TOOLS_URL and conn.get("path") == TOOLS_PATH:
-            print(f"[bootstrap] Tool server déjà enregistré : {TOOLS_URL}{TOOLS_PATH}", flush=True)
+            conn_config = conn.setdefault("config", {})
+            conn_config["enable"] = True
+            grants = conn_config.setdefault("access_grants", [])
+            needs_update = public_read_grant not in grants
+            if needs_update:
+                grants.append(public_read_grant)
+            if conn.get("info", {}).get("name") != tool_server_info["name"]:
+                conn["info"] = tool_server_info
+                needs_update = True
+            if needs_update:
+                status, body = _put(
+                    "/api/v1/configs/tool_servers",
+                    {"TOOL_SERVER_CONNECTIONS": connections},
+                    admin_token,
+                )
+                if status == 200:
+                    print(f"[bootstrap] Tool server mis à jour (accès public / nom) : {TOOLS_URL}{TOOLS_PATH}", flush=True)
+                else:
+                    print(f"[bootstrap] Avertissement : mise à jour tool server {status} — {body}", flush=True)
+            else:
+                print(f"[bootstrap] Tool server déjà enregistré : {TOOLS_URL}{TOOLS_PATH}", flush=True)
             return
 
     connections.append({
@@ -185,9 +226,12 @@ def ensure_tool_server(admin_token: str) -> None:
         "type": "openapi",
         "auth_type": "bearer",
         "key": MCPO_API_KEY,
-        "config": {"enable": True},   # requis : sans `enable: true`, le serveur est ignoré
+        "config": {
+            "enable": True,   # requis : sans `enable: true`, le serveur est ignoré
+            "access_grants": [public_read_grant],   # requis : sinon invisible aux non-admins
+        },
         "headers": None,
-        "info": {},   # doit être un dict vide, pas null (info.get() planterait)
+        "info": tool_server_info,
     })
 
     status, body = _put(

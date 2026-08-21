@@ -82,6 +82,21 @@ Si `ENABLE_SIGNUP=true`, n'importe qui peut créer un compte. Le bootstrap crée
 
 ---
 
+## 12. Tool server invisible aux non-admins sans `config.access_grants`
+
+**Symptôme** : le tool server apparaît dans Admin → Settings → Tools, mais aucun outil n'est
+disponible dans le chat des comptes enquêteurs (non-admin).  
+**Cause** : `routers/tools.py` (`GET /api/v1/tools/`) filtre les OpenAPI tool servers via
+`has_access(user.id, 'read', server_config.get('access_grants', []))`. Sans `access_grants` dans
+`config`, la liste est vide → `has_access` retourne toujours `False` pour un non-admin (l'admin
+contourne via `BYPASS_ADMIN_ACCESS_CONTROL`, d'où la différence de visibilité admin/enquêteur).  
+**Fix** : le `config` du tool server doit inclure, comme pour les modèles (gotcha #11) :
+`"access_grants": [{"principal_type": "user", "principal_id": "*", "permission": "read"}]`.
+Le bootstrap (`ensure_tool_server`) l'ajoute désormais automatiquement et met aussi à jour la
+config existante si l'access_grant public est absent (idempotent).
+
+---
+
 ## 11. Modèles providers non visibles aux non-admins par défaut
 
 **Symptôme** : les enquêteurs voient 0 modèles dans le sélecteur de chat OpenWebUI.  
